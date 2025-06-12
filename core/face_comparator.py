@@ -18,7 +18,7 @@ class FaceComparator:
                 vector = np.array(eval(row['vector']))
                 self.nombres.append(nombre)
                 self.encodings.append(vector)
-        print(f"[✔] Se cargaron {len(self.nombres)} rostros conocidos.")
+        print(f"Se cargaron {len(self.nombres)} rostros conocidos.")
 
     def comparar_imagen(self, ruta_imagen: str) -> Optional[Tuple[str, float]]:
         imagen = face_recognition.load_image_file(ruta_imagen)
@@ -40,3 +40,20 @@ class FaceComparator:
             return nombre_mas_cercano, distancia_minima
         else:
             return None, None
+    
+    def comparar_encoding(self, encoding: np.ndarray) -> Optional[Tuple[str, float]]:
+        distancias = face_recognition.face_distance(self.encodings, encoding)
+        if len(distancias) == 0:
+            return None
+
+        indice_mas_cercano = np.argmin(distancias)
+        distancia_minima = distancias[indice_mas_cercano]
+        nombre_mas_cercano = self.nombres[indice_mas_cercano]
+
+        if distancia_minima < 0.6:
+            return nombre_mas_cercano, distancia_minima
+        else:
+            return None
+
+
+

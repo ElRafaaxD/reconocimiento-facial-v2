@@ -23,7 +23,7 @@ class FaceIndexer:
                     print(f"[!] No se detectó rostro en {ruta_imagen}")
                     continue
 
-                encoding = codificaciones[0]  # Tomamos el primero
+                encoding = codificaciones[0]  # Tomamos el primer rostro
                 self.rostros.append({
                     "nombre": persona,
                     "vector": encoding.tolist()  # Convertimos a lista para CSV
@@ -35,4 +35,4 @@ class FaceIndexer:
             writer.writerow(["nombre", "vector"])  # Encabezados
             for rostro in self.rostros:
                 writer.writerow([rostro["nombre"], rostro["vector"]])
-        print(f"[✔] Rostros guardados en {self.output_csv}")
+        print(f"Rostros guardados en {self.output_csv}")
